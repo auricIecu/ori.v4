@@ -16,8 +16,27 @@ from database import get_db, Conversation as DBConversation, Message as DBMessag
 # Cargar variables de entorno
 load_dotenv()
 
-# Obtener la clave API de Groq
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+# Obtener y limpiar la clave API de Groq
+groq_api_key_raw = os.getenv("GROQ_API_KEY")
+
+# Depuración detallada
+print(f"DEBUG - API Key raw: '{groq_api_key_raw}'")
+
+# Eliminar espacios, comillas y otros caracteres que puedan causar problemas
+if groq_api_key_raw:
+    # Primero eliminamos espacios alrededor del valor
+    GROQ_API_KEY = groq_api_key_raw.strip()
+    
+    # Luego quitamos comillas si las hay
+    GROQ_API_KEY = GROQ_API_KEY.replace('"', '').replace('\'', '')
+    
+    # Más información de depuración
+    print(f"DEBUG - API Key limpia: '{GROQ_API_KEY}'")
+    print(f"DEBUG - Longitud de API Key: {len(GROQ_API_KEY)}")
+    print(f"DEBUG - API Key cargada: {GROQ_API_KEY[:5]}...{GROQ_API_KEY[-5:] if GROQ_API_KEY else ''}")
+else:
+    GROQ_API_KEY = None
+    print("ERROR - No se pudo cargar la API Key de Groq")
 
 
 app = FastAPI()
@@ -72,25 +91,30 @@ active_conversations: Dict[str, List[Dict[str, str]]] = {}
 
 def query_groq_api(messages: List[Dict[str, str]]) -> str:
     try:
+        # Depuración: Mostrar los primeros caracteres de la clave API en uso
+        api_key_used = client.api_key
+        print(f"DEBUG - API key utilizada en client: {api_key_used[:5]}...{api_key_used[-5:] if api_key_used else ''}")
+        
+        # Usar modo sin streaming, como en nuestro script de prueba exitoso
+        print("DEBUG - Llamando a Groq API sin streaming...")
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=messages,
             temperature=1,
             max_tokens=1024,
             top_p=1,
-            stream=True,
+            stream=False,
             stop=None,
         )
         
-        response = ""
-        for chunk in completion:
-            response += chunk.choices[0].delta.content or ""
-        
+        # Si llegamos aquí, la llamada fue exitosa
+        response = completion.choices[0].message.content
+        print("DEBUG - Respuesta exitosa de Groq API")
         return response
     
     except Exception as e:
-        print(f"Error con API Groq: {str(e)}")
-        return f"Lo siento, ha ocurrido un error de comunicación. Detalles: {str(e)}"
+        print(f"ERROR DETALLADO con API Groq: {type(e).__name__}: {str(e)}")
+        return f"Lo siento, ha ocurrido un error de comunicación. Detalles: Error code: {getattr(e, 'status_code', 'Unknown')} - {str(e)}"
 
 
 def get_or_create_conversation_in_db(conversation_id: str, db: Session) -> DBConversation:
