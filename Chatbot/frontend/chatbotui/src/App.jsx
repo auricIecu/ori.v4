@@ -4,8 +4,6 @@ import './fonts.css';
 import customLogo from './assets/Logo1.png';
 import iconoNueva from './assets/Signo mas.png';
 import iconoPeerToPeer from './assets/Mensajes peer to peer.png';
-import iconoExportar from './assets/Signo exportar.png';
-import iconoBorrar from './assets/Signo borrar.png';
 import iconoHistorial from './assets/Signo historial.png';
 import iconoEnviar from './assets/Signo enviar.png';
 import ConversationHistory from './ConversationHistory';
@@ -56,6 +54,11 @@ const App = () => {
       
       setChatHistory(formattedMessages);
       setConversationId(selectedConversationId);
+      
+      // Asegurarse de que se muestre la vista de chat activo, no la de bienvenida
+      if (isFirstInteraction) {
+        setIsFirstInteraction(false);
+      }
     } catch (error) {
       console.error('Error loading conversation:', error);
     } finally {
@@ -105,26 +108,6 @@ const App = () => {
     }
   };
 
-  // Función para borrar la conversación actual
-  const clearConversation = async () => {
-    if (!conversationId) return;
-    
-    try {
-      const response = await fetch(`http://localhost:8000/clear-conversation/?conversation_id=${conversationId}`, {
-        method: 'POST',
-      });
-      
-      if (!response.ok) {
-        throw new Error('Error clearing conversation');
-      }
-      
-      const data = await response.json();
-      setConversationId(data.conversation_id);
-      setChatHistory([]);
-    } catch (error) {
-      console.error('Error clearing conversation:', error);
-    }
-  };
   
   // Función para iniciar una nueva conversación sin borrar la actual
   const startNewConversation = () => {
@@ -189,18 +172,6 @@ const App = () => {
 
 
 
-  // Función para exportar la conversación
-  const exportConversation = () => {
-    if (!conversationId) return;
-    
-    // Crear un enlace para descargar el archivo
-    const link = document.createElement('a');
-    link.href = `http://localhost:8000/export-conversation/${conversationId}`;
-    link.download = `conversation_${conversationId}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   return (
     <div className="bg-[#262624] fixed inset-0 flex">
@@ -238,24 +209,6 @@ const App = () => {
                 title="Mensajes peer to peer"
               >
                 <img src={iconoPeerToPeer} alt="Mensajes peer to peer" className="h-11 w-auto" />
-              </button>
-
-              {/* Exportar */}
-              <button
-                onClick={exportConversation}
-                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-                title="Exportar"
-              >
-                <img src={iconoExportar} alt="Exportar" className="h-11 w-auto" />
-              </button>
-
-              {/* Borrar */}
-              <button
-                onClick={clearConversation}
-                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-                title="Borrar"
-              >
-                <img src={iconoBorrar} alt="Borrar" className="h-11 w-auto" />
               </button>
             </div>
             
