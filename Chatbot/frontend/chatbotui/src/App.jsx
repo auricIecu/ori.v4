@@ -132,6 +132,17 @@ const App = () => {
     setConversationId(newConversationId);
     setChatHistory([]);
   };
+  
+  // Función para volver a la pantalla principal/inicio
+  const goToHomePage = () => {
+    // Iniciar nueva conversación
+    const newConversationId = Date.now().toString();
+    setConversationId(newConversationId);
+    setChatHistory([]);
+    
+    // Restablecer el estado de primera interacción para mostrar la pantalla de bienvenida
+    setIsFirstInteraction(true);
+  };
 
   // Función para enviar feedback sobre una respuesta
   const sendFeedback = async (message, isPositive) => {
@@ -221,7 +232,9 @@ const App = () => {
           <img 
             src={customLogo} 
             alt="Logo" 
-            className="h-16 w-auto" 
+            className="h-16 w-auto cursor-pointer" 
+            onClick={goToHomePage}
+            title="Ir al inicio"
           />
         </div>
 
