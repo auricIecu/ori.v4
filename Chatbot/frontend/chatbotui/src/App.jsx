@@ -9,6 +9,7 @@ import iconoBorrar from './assets/Signo borrar.png';
 import iconoHistorial from './assets/Signo historial.png';
 import iconoEnviar from './assets/Signo enviar.png';
 import ConversationHistory from './ConversationHistory';
+import HistoryPanel from './HistoryPanel';
 
 const App = () => {
   const [message, setMessage] = useState('');
@@ -17,6 +18,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [isFirstInteraction, setIsFirstInteraction] = useState(true);
   const [conversationId, setConversationId] = useState(null);
+  const [showHistory, setShowHistory] = useState(false);
 
   const chatContainerRef = useRef(null);
 
@@ -202,71 +204,87 @@ const App = () => {
 
   return (
     <div className="bg-[#262624] fixed inset-0 flex">
-      {/* Barra lateral izquierda */}
-      <div className="bg-[#262624] w-10 sm:w-20 flex flex-col items-center sm:items-start p-2 border-r border-gray-600 h-full">
-        {/* Logo */}
-        <div className="mb-8 flex justify-center w-full">
-          <img 
-            src={customLogo} 
-            alt="Logo" 
-            className="h-16 w-auto cursor-pointer" 
-            onClick={goToHomePage}
-            title="Ir al inicio"
-          />
-        </div>
-
-        {/* Estructura flexible que permite empujar el historial al fondo */}
-        <div className="flex flex-col h-full w-full">
-          {/* Parte superior con botones */}
-          <div className="flex flex-col space-y-4 w-full items-center sm:items-stretch">
-            {/* Nueva */}
-            <button
-              onClick={startNewConversation}
-              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-              title="Nueva conversación"
-            >
-              <img src={iconoNueva} alt="Nueva" className="h-11 w-auto" />
-            </button>
-
-
-            {/* Mensajes peer to peer (sin funcionalidad por ahora) */}
-            <button
-              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-              title="Mensajes peer to peer"
-            >
-              <img src={iconoPeerToPeer} alt="Mensajes peer to peer" className="h-11 w-auto" />
-            </button>
-
-            {/* Exportar */}
-            <button
-              onClick={exportConversation}
-              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-              title="Exportar"
-            >
-              <img src={iconoExportar} alt="Exportar" className="h-11 w-auto" />
-            </button>
-
-            {/* Borrar */}
-            <button
-              onClick={clearConversation}
-              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-              title="Borrar"
-            >
-              <img src={iconoBorrar} alt="Borrar" className="h-11 w-auto" />
-            </button>
-          </div>
-          
-          {/* Espacio flexible */}
-          <div className="flex-grow"></div>
-          
-          {/* Historial de conversaciones (al fondo) */}
-          <div className="w-full mt-auto">
-            <ConversationHistory 
-              onSelectConversation={loadConversation} 
-              currentConversationId={conversationId} 
+      {/* Contenedor principal que contiene la barra lateral y el panel de historial */}
+      <div className="flex h-full">
+        {/* Barra lateral izquierda */}
+        <div className="bg-[#262624] w-10 sm:w-20 flex flex-col items-center sm:items-start p-2 border-r border-gray-600 h-full">
+          {/* Logo */}
+          <div className="mb-8 flex justify-center w-full">
+            <img 
+              src={customLogo} 
+              alt="Logo" 
+              className="h-16 w-auto cursor-pointer" 
+              onClick={goToHomePage}
+              title="Ir al inicio"
             />
           </div>
+
+          {/* Estructura flexible que permite empujar el historial al fondo */}
+          <div className="flex flex-col h-full w-full">
+            {/* Parte superior con botones */}
+            <div className="flex flex-col space-y-4 w-full items-center sm:items-stretch">
+              {/* Nueva */}
+              <button
+                onClick={startNewConversation}
+                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
+                title="Nueva conversación"
+              >
+                <img src={iconoNueva} alt="Nueva" className="h-11 w-auto" />
+              </button>
+
+              {/* Mensajes peer to peer (sin funcionalidad por ahora) */}
+              <button
+                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
+                title="Mensajes peer to peer"
+              >
+                <img src={iconoPeerToPeer} alt="Mensajes peer to peer" className="h-11 w-auto" />
+              </button>
+
+              {/* Exportar */}
+              <button
+                onClick={exportConversation}
+                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
+                title="Exportar"
+              >
+                <img src={iconoExportar} alt="Exportar" className="h-11 w-auto" />
+              </button>
+
+              {/* Borrar */}
+              <button
+                onClick={clearConversation}
+                className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
+                title="Borrar"
+              >
+                <img src={iconoBorrar} alt="Borrar" className="h-11 w-auto" />
+              </button>
+            </div>
+            
+            {/* Espacio flexible */}
+            <div className="flex-grow"></div>
+            
+            {/* Historial de conversaciones (al fondo) */}
+            <div className="w-full mt-auto">
+              <ConversationHistory 
+                onSelectConversation={loadConversation} 
+                currentConversationId={conversationId}
+                showHistory={showHistory}
+                setShowHistory={setShowHistory}
+              />
+            </div>
+          </div>
         </div>
+        
+        {/* Panel de historial (aparece como extensión lateral) */}
+        {showHistory && (
+          <div className="w-64 h-full">
+            <HistoryPanel
+              onSelectConversation={loadConversation}
+              currentConversationId={conversationId}
+              showHistory={showHistory}
+              setShowHistory={setShowHistory}
+            />
+          </div>
+        )}
       </div>
 
       {/* Área principal de chat */}
