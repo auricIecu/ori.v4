@@ -4,6 +4,7 @@ import './fonts.css';
 import customLogo from './assets/Logo1.png';
 import iconoNueva from './assets/Signo mas.png';
 import iconoPersonalizar from './assets/Signo ajuste.png';
+import iconoPeerToPeer from './assets/Mensajes peer to peer.png';
 import iconoExportar from './assets/Signo exportar.png';
 import iconoBorrar from './assets/Signo borrar.png';
 import iconoHistorial from './assets/Signo historial.png';
@@ -258,6 +259,14 @@ const App = () => {
               title="Personalizar AI"
             >
               <img src={iconoPersonalizar} alt="Personalizar AI" className="h-11 w-auto" />
+            </button>
+
+            {/* Mensajes peer to peer (sin funcionalidad por ahora) */}
+            <button
+              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
+              title="Mensajes peer to peer"
+            >
+              <img src={iconoPeerToPeer} alt="Mensajes peer to peer" className="h-11 w-auto" />
             </button>
 
             {/* Exportar */}
