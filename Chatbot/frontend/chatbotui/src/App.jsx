@@ -3,7 +3,6 @@ import './App.css';
 import './fonts.css';
 import customLogo from './assets/Logo1.png';
 import iconoNueva from './assets/Signo mas.png';
-import iconoPersonalizar from './assets/Signo ajuste.png';
 import iconoPeerToPeer from './assets/Mensajes peer to peer.png';
 import iconoExportar from './assets/Signo exportar.png';
 import iconoBorrar from './assets/Signo borrar.png';
@@ -18,8 +17,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [isFirstInteraction, setIsFirstInteraction] = useState(true);
   const [conversationId, setConversationId] = useState(null);
-  const [systemMessage, setSystemMessage] = useState('You are a useful AI assistant.');
-  const [showSystemMessage, setShowSystemMessage] = useState(false);
+
   const chatContainerRef = useRef(null);
 
 
@@ -187,29 +185,7 @@ const App = () => {
     }
   };
 
-  // Función para actualizar el mensaje del sistema
-  const updateSystemMessage = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/update-system-message/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          conversation_id: conversationId,
-          system_message: systemMessage,
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Error updating system message');
-      }
-      
-      setShowSystemMessage(false);
-    } catch (error) {
-      console.error('Error updating system message:', error);
-    }
-  };
+
 
   // Función para exportar la conversación
   const exportConversation = () => {
@@ -252,14 +228,6 @@ const App = () => {
               <img src={iconoNueva} alt="Nueva" className="h-11 w-auto" />
             </button>
 
-            {/* Personalizar AI */}
-            <button
-              onClick={() => setShowSystemMessage(!showSystemMessage)}
-              className="bg-transparent border-none text-black py-2 px-2 text-sm hover:opacity-80 transition-colors w-full flex justify-center items-center"
-              title="Personalizar AI"
-            >
-              <img src={iconoPersonalizar} alt="Personalizar AI" className="h-11 w-auto" />
-            </button>
 
             {/* Mensajes peer to peer (sin funcionalidad por ahora) */}
             <button
@@ -304,31 +272,7 @@ const App = () => {
       {/* Área principal de chat */}
       <div className="flex-1 flex flex-col p-4 overflow-hidden max-w-3xl mx-auto">
 
-        {showSystemMessage && (
-          <div className="mb-4 p-3 bg-zinc-800 rounded-lg">
-            <textarea
-              value={systemMessage}
-              onChange={(e) => setSystemMessage(e.target.value)}
-              className="w-full p-3 mb-2 focus:outline-none bg-zinc-950 text-white text-sm rounded-xl"
-              rows="3"
-              placeholder="Personaliza el comportamiento del chatbot..."
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={() => setShowSystemMessage(false)}
-                className="bg-[#76dd76] text-black py-2 px-4 rounded-full text-sm hover:opacity-80 transition-colors"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={updateSystemMessage}
-                className="bg-[#76dd76] text-black py-2 px-4 rounded-full text-sm hover:opacity-80 transition-colors"
-              >
-                Guardar
-              </button>
-            </div>
-          </div>
-        )}
+
 
         <div
           ref={chatContainerRef}

@@ -62,7 +62,8 @@ const ConversationHistory = ({ onSelectConversation, currentConversationId }) =>
   };
 
   return (
-    <div className="mb-4">
+    <div>
+      {/* Botón de historial */}
       <button
         onClick={() => setShowHistory(!showHistory)}
         className="flex items-center justify-center text-black bg-transparent border-none hover:opacity-80 px-3 py-1 text-sm mb-2 transition-colors w-full"
@@ -71,40 +72,66 @@ const ConversationHistory = ({ onSelectConversation, currentConversationId }) =>
         <img src={iconoHistorial} alt="Historial" className="h-11 w-auto" />
       </button>
       
+      {/* Panel lateral de historial */}
       {showHistory && (
-        <div className="bg-[#d4ac3a]/30 border border-[#efca2d] rounded-lg p-2 max-h-60 overflow-y-auto">
-          {loading ? (
-            <div className="text-center text-white">Cargando...</div>
-          ) : error ? (
-            <div className="text-center text-red-500">{error}</div>
-          ) : conversations.length === 0 ? (
-            <div className="text-center text-white">No hay conversaciones guardadas</div>
-          ) : (
-            <ul className="space-y-2">
-              {conversations.map((conv) => (
-                <li
-                  key={conv.conversation_id}
-                  className={`p-2 rounded cursor-pointer flex justify-between items-center ${
-                    conv.conversation_id === currentConversationId
-                      ? 'bg-[#efca2d] text-black'
-                      : 'bg-[#bc983a]/50 text-white hover:bg-[#bc983a]/70'
-                  }`}
-                  onClick={() => onSelectConversation(conv.conversation_id)}
-                >
-                  <div className="flex flex-col">
-                    <span className="font-medium">{conv.title}</span>
-                    <span className="text-xs opacity-80">{formatDate(conv.updated_at)}</span>
-                  </div>
-                  <button
-                    onClick={(e) => handleDeleteConversation(e, conv.conversation_id)}
-                    className="text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-                  >
-                    Eliminar
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="fixed inset-0 flex z-50">
+          {/* Panel de historial */}
+          <div className="w-64 bg-zinc-800 h-full overflow-hidden shadow-lg">
+            <div className="flex items-center justify-between p-4 border-b border-zinc-700">
+              <h3 className="font-medium text-white">Historial</h3>
+              <button 
+                onClick={() => setShowHistory(false)}
+                className="text-zinc-400 hover:text-white bg-transparent border-none text-lg"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="p-4 overflow-y-auto" style={{ height: 'calc(100vh - 64px)' }}>
+              {loading ? (
+                <div className="text-center text-white py-6">Cargando...</div>
+              ) : error ? (
+                <div className="text-center text-red-500 py-6">{error}</div>
+              ) : conversations.length === 0 ? (
+                <div className="text-center text-white py-6">No hay conversaciones guardadas</div>
+              ) : (
+                <ul className="space-y-4">
+                  {conversations.map((conv) => (
+                    <li
+                      key={conv.conversation_id}
+                      className={`p-4 rounded-md cursor-pointer ${conv.conversation_id === currentConversationId
+                        ? 'bg-[#76dd76] text-black'
+                        : 'bg-zinc-700 text-white hover:bg-zinc-600'
+                      }`}
+                      onClick={() => {
+                        onSelectConversation(conv.conversation_id);
+                        setShowHistory(false);
+                      }}
+                    >
+                      <div className="flex flex-col mb-2">
+                        <span className="font-medium">{conv.title}</span>
+                        <span className="text-xs opacity-80">{formatDate(conv.updated_at)}</span>
+                      </div>
+                      <div className="flex justify-end">
+                        <button
+                          onClick={(e) => handleDeleteConversation(e, conv.conversation_id)}
+                          className="text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-md"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+          
+          {/* Overlay transparente para cerrar al hacer clic fuera */}
+          <div 
+            className="flex-1 bg-black bg-opacity-50" 
+            onClick={() => setShowHistory(false)}
+          />
         </div>
       )}
     </div>
