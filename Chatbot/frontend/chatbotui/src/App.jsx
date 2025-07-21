@@ -388,7 +388,7 @@ const App = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-full p-3 focus:outline-none bg-[#303030] text-white text-sm sm:text-base rounded-full"
-                placeholder="Type your message..."
+                placeholder="Pregúntame lo que quieras sobre Fermagri..."
                 autoFocus={isFirstInteraction}
               />
               <button
