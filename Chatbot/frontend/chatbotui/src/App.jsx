@@ -292,38 +292,71 @@ const App = () => {
 
 
         {isChatActive && (
-          <div className={`flex flex-col items-center ${isFirstInteraction ? 'h-full' : ''}`} style={isFirstInteraction ? {justifyContent: 'center', transform: 'translateY(-20%)'} : {}}>
+          <div className={`flex flex-col items-center ${isFirstInteraction ? 'h-full' : ''}`} style={isFirstInteraction ? {justifyContent: 'center', transform: 'translateY(-10%)'} : {}}>
             {isFirstInteraction && (
-              <h1 className="text-6xl font-bold mb-2 orito-title" style={{ color: '#f7c61a' }}>
+              <h1 className="text-6xl font-bold mb-6 orito-title" style={{ color: '#f7c61a' }}>
                 Orito
               </h1>
             )}
-            <form 
-              onSubmit={(e) => {
-                if (isFirstInteraction) {
+            {isFirstInteraction ? (
+              <form 
+                onSubmit={(e) => {
                   setIsFirstInteraction(false);
-                }
-                sendMessage(e);
-              }} 
-              className={`flex flex-col sm:flex-row items-center sm:space-x-4 ${isFirstInteraction ? 'w-2/3 mx-auto' : 'sticky bottom-0 w-full'} bg-[#262624] py-3 ${isFirstInteraction ? '' : 'mt-auto'}`}
-            >
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="w-full p-3 focus:outline-none bg-[#303030] text-white text-sm sm:text-base rounded-full"
-                placeholder="Pregúntame lo que quieras sobre Fermagri..."
-                autoFocus={isFirstInteraction}
-              />
-              <button
-                type="submit"
-                className="bg-transparent border-0 outline-none flex items-center justify-center p-0 mt-2 sm:mt-0 disabled:opacity-50 hover:opacity-80 transition-opacity sm:ml-2"
-                disabled={loading || !message.trim()}
-                style={{boxShadow: 'none'}}
+                  sendMessage(e);
+                }} 
+                className="w-2/3 mx-auto"
               >
-                <img src={iconoEnviar} alt="Send" style={{width: '48px', height: '48px', aspectRatio: '1/1', objectFit: 'contain', filter: 'none', marginBottom: isFirstInteraction ? '0' : '2px'}} />
-              </button>
-            </form>
+                <div className="bg-[#303030] rounded-xl overflow-hidden h-40 flex flex-col relative">
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full h-full p-4 pb-16 focus:outline-none bg-transparent text-white text-sm sm:text-base resize-none"
+                    placeholder="Pregúntame lo que quieras sobre Fermagri..."
+                    autoFocus
+                    style={{overflowY: 'auto'}}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-transparent border-0 outline-none absolute left-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                    disabled={loading || !message.trim()}
+                    style={{boxShadow: 'none'}}
+                  >
+                    <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                  </button>
+                  {/* Espacio para futuros botones a la derecha */}
+                  <div className="absolute right-0 bottom-0 h-14 flex items-center justify-end pr-3">
+                    <div className="flex-grow"></div>
+                  </div>
+                </div>
+              </form>
+            ) : (
+              <form 
+                onSubmit={sendMessage} 
+                className="sticky bottom-0 w-full bg-[#262624] py-3 mt-auto"
+              >
+                <div className="bg-[#303030] rounded-xl overflow-hidden h-40 flex flex-col relative">
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full h-full p-4 pb-16 focus:outline-none bg-transparent text-white text-sm sm:text-base resize-none"
+                    placeholder="Pregúntame lo que quieras sobre Fermagri..."
+                    style={{overflowY: 'auto'}}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-transparent border-0 outline-none absolute left-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                    disabled={loading || !message.trim()}
+                    style={{boxShadow: 'none'}}
+                  >
+                    <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                  </button>
+                  {/* Espacio para futuros botones a la derecha */}
+                  <div className="absolute right-0 bottom-0 h-14 flex items-center justify-end pr-3">
+                    <div className="flex-grow"></div>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         )}
       </div>
