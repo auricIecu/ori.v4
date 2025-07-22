@@ -9,6 +9,7 @@ import iconoEnviar from './assets/Signo enviar.png';
 import iconoBuscar from './assets/Signo buscar.png';
 import iconoInventario from './assets/Signo inventario.png';
 import iconoImportaciones from './assets/Signo importaciones.png';
+import iconoAdjuntar from './assets/Signo adjuntar.png';
 import ConversationHistory from './ConversationHistory';
 import HistoryPanel from './HistoryPanel';
 
@@ -341,14 +342,23 @@ const App = () => {
                       <img src={iconoImportaciones} alt="Imports" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
                     </button>
                   </div>
-                  <button
-                    type="submit"
-                    className="bg-transparent border-0 outline-none absolute right-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
-                    disabled={loading || !message.trim()}
-                    style={{boxShadow: 'none'}}
-                  >
-                    <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
-                  </button>
+                  <div className="absolute right-3 bottom-3 flex items-center space-x-3">
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoAdjuntar} alt="Attach" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                      disabled={loading || !message.trim()}
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                  </div>
                 </div>
               </form>
             ) : (
@@ -387,14 +397,23 @@ const App = () => {
                       <img src={iconoImportaciones} alt="Imports" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
                     </button>
                   </div>
-                  <button
-                    type="submit"
-                    className="bg-transparent border-0 outline-none absolute right-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
-                    disabled={loading || !message.trim()}
-                    style={{boxShadow: 'none'}}
-                  >
-                    <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
-                  </button>
+                  <div className="absolute right-3 bottom-3 flex items-center space-x-3">
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoAdjuntar} alt="Attach" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                      disabled={loading || !message.trim()}
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                  </div>
                 </div>
               </form>
             )}
