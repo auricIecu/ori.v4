@@ -6,6 +6,9 @@ import iconoNueva from './assets/Signo mas.png';
 import iconoPeerToPeer from './assets/Mensajes peer to peer.png';
 import iconoHistorial from './assets/Signo historial.png';
 import iconoEnviar from './assets/Signo enviar.png';
+import iconoBuscar from './assets/Signo buscar.png';
+import iconoInventario from './assets/Signo inventario.png';
+import iconoImportaciones from './assets/Signo importaciones.png';
 import ConversationHistory from './ConversationHistory';
 import HistoryPanel from './HistoryPanel';
 
@@ -315,18 +318,37 @@ const App = () => {
                     autoFocus
                     style={{overflowY: 'auto'}}
                   />
+                  <div className="absolute left-3 bottom-3 flex items-center space-x-3">
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoBuscar} alt="Search" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoInventario} alt="Inventory" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoImportaciones} alt="Imports" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                  </div>
                   <button
                     type="submit"
-                    className="bg-transparent border-0 outline-none absolute left-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                    className="bg-transparent border-0 outline-none absolute right-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
                     disabled={loading || !message.trim()}
                     style={{boxShadow: 'none'}}
                   >
                     <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
                   </button>
-                  {/* Espacio para futuros botones a la derecha */}
-                  <div className="absolute right-0 bottom-0 h-14 flex items-center justify-end pr-3">
-                    <div className="flex-grow"></div>
-                  </div>
                 </div>
               </form>
             ) : (
@@ -342,18 +364,37 @@ const App = () => {
                     placeholder="Pregúntame lo que quieras sobre Fermagri..."
                     style={{overflowY: 'auto'}}
                   />
+                  <div className="absolute left-3 bottom-3 flex items-center space-x-3">
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoBuscar} alt="Search" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoInventario} alt="Inventory" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-transparent border-0 outline-none flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                      style={{boxShadow: 'none'}}
+                    >
+                      <img src={iconoImportaciones} alt="Imports" style={{width: '36px', height: '36px', aspectRatio: '1/1', objectFit: 'contain'}} />
+                    </button>
+                  </div>
                   <button
                     type="submit"
-                    className="bg-transparent border-0 outline-none absolute left-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
+                    className="bg-transparent border-0 outline-none absolute right-3 bottom-3 flex items-center justify-center p-0 disabled:opacity-50 hover:opacity-80 transition-opacity"
                     disabled={loading || !message.trim()}
                     style={{boxShadow: 'none'}}
                   >
                     <img src={iconoEnviar} alt="Send" style={{width: '40px', height: '40px', aspectRatio: '1/1', objectFit: 'contain'}} />
                   </button>
-                  {/* Espacio para futuros botones a la derecha */}
-                  <div className="absolute right-0 bottom-0 h-14 flex items-center justify-end pr-3">
-                    <div className="flex-grow"></div>
-                  </div>
                 </div>
               </form>
             )}
